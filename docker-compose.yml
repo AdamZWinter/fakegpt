@@ -1,0 +1,74 @@
+version: "3"
+
+services:
+   winternode:
+     container_name: "winter" 
+     image: "node"
+     restart: unless-stopped
+    #  depends_on:
+    #    - mariadb
+     ports:
+       - '8080:8080'
+    #  links:
+    #    - mariadb
+     volumes:
+       - /home/winter/agile/app:/app:Z
+#       - ../secrets:/var/www/secrets:z
+#       - ./scripts:/var/www/scripts:z
+      #  - ./logs:/var/www/logs:z
+     command: node /app/server.js
+     
+   stewartnode:
+     container_name: "stewart"
+     image: "node"
+     restart: unless-stopped
+    #  depends_on:
+    #    - mariadb
+     ports:
+       - '8081:8080'
+    #  links:
+    #    - mariadb
+     volumes:
+       - /home/stewart/agile/app:/app:Z
+#       - ../secrets:/var/www/secrets:z
+#       - ./scripts:/var/www/scripts:z
+      #  - ./logs:/var/www/logs:z
+     command: node /app/server.js
+
+   wisenode:
+     container_name: "wise"
+     image: "node"
+     restart: unless-stopped
+    #  depends_on:
+    #    - mariadb
+     ports:
+       - '8082:8080'
+    #  links:
+    #    - mariadb
+     volumes:
+       - /home/wise/agile/app:/app:Z
+#       - ../secrets:/var/www/secrets:z
+#       - ./scripts:/var/www/scripts:z
+      #  - ./logs:/var/www/logs:z
+     command: node /app/server.js
+
+   jacknode:
+     container_name: "jeconiah"
+     image: "node"
+     restart: unless-stopped
+    #  depends_on:
+    #    - mariadb
+     ports:
+       - '8083:8080'
+    #  links:
+    #    - mariadb
+     volumes:
+       - /home/jeconiah/agile/app:/app:Z
+#       - ../secrets:/var/www/secrets:z
+#       - ./scripts:/var/www/scripts:z
+      #  - ./logs:/var/www/logs:z
+     command: node /app/server.js
+
+# docker run -it --rm --name adam -p 8080:8080 -v /home/winter/agile/app:/app:Z node /bin/bash
+# docker run -it --rm --name wise -p 8082:8080 -v /home/wise/agile/app:/app:Z node /bin/bash
+# docker run -it --rm --name jeconiah -p 8083:8080 -v /home/jeconiah/agile/app:/app:Z node /bin/bash
