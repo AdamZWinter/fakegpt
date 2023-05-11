@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+   flaskai:
+     container_name: "winter" 
+     image: "node"
+     restart: unless-stopped
+    #  depends_on:
+    #    - mariadb
+     ports:
+       - '8080:8080'
+    #  links:
+    #    - mariadb
+     volumes:
+       - /home/winter/agile/app:/app:Z
+#       - ../secrets:/var/www/secrets:z
+#       - ./scripts:/var/www/scripts:z
+      #  - ./logs:/var/www/logs:z
+     command: node /app/server.js
+
+# docker-compose -f winter.yml up -d
+
+# docker run -it --rm --name adam -p 8080:8080 -v /home/winter/agile/app:/app:Z node /bin/bash

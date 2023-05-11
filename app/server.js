@@ -9,7 +9,7 @@ const HOST = '0.0.0.0';
 // App
 const app = express();
 app.get('/', (req, res) => {
-  res.send('Hello World cannot edit while running');
+  res.send('Hello World must restart container to see changes');
 });
 
 app.listen(PORT, HOST, () => {
