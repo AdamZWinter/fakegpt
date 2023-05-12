@@ -1,22 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Welcome to nginx!</title>
-<style>
-html { color-scheme: light dark; }
-body { width: 35em; margin: 0 auto;
-font-family: Tahoma, Verdana, Arial, sans-serif; }
-</style>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT4 Chat API Model</title>
+    <link rel="stylesheet"  href="/styles.css">
 </head>
-<body>
-<h1>Welcome to nginx!</h1>
-<p>This is served from var directory but edited from symbolic link to user directory.</p>
-
-<p>For online documentation and support please refer to
-<a href="http://nginx.org/">nginx.org</a>.<br/>
-Commercial support is available at
-<a href="http://nginx.com/">nginx.com</a>.</p>
-
-<p><em>Thank you for using nginx.</em></p>
-</body>
+    <body>
+        <main>
+            <section>
+                
+            </section>
+            <div class="container">
+                <h2>FakeGPT</h2>
+                <div class="chat-window">
+                    <div class="chat-log" id="chat-log"></div>
+                </div>
+            </div>
+            
+            <form action="" class="input-form" id="input-form">
+                <input type="text" class="chat-input" name="message" id="message" placeholder="Ask me anything....">
+                <button type="submit" class="send-button">Send</button>
+            </form>
+            <div id="chat-log"></div>
+        </main>
+        <script src="chat-window.js"></script>
+    </body>
 </html>
