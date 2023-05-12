@@ -69,6 +69,7 @@ services:
       #  - ./logs:/var/www/logs:z
      command: node /app/server.js
 
-# docker run -it --rm --name adam -p 8080:8080 -v /home/winter/agile/app:/app:Z node /bin/bash
+# docker run -it --rm --name winter -p 8080:8080 -v /home/winter/agile/app:/app:Z node /bin/bash
+# docker run -it --rm --name stewart -p 8081:8080 -v /home/stewart/agile/app:/app:Z node /bin/bash
 # docker run -it --rm --name wise -p 8082:8080 -v /home/wise/agile/app:/app:Z node /bin/bash
 # docker run -it --rm --name jeconiah -p 8083:8080 -v /home/jeconiah/agile/app:/app:Z node /bin/bash
