@@ -1,0 +1,3 @@
+export const api_key = "<your API key here in quotes no brackets>";
+export const org_key = "<your org key here in quotes no brackets>";
+
