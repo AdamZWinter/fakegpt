@@ -18,7 +18,7 @@ form.addEventListener('submit', (e) => {
     chatLog.appendChild(messageElement);
     chatLog.scrollTop = chatLog.scrollHeight;
 
-    fetch('https://wise.topsecondhost.com/api', {
+    fetch('/api/', {
         method: 'POST',
         headers: {
             'Content-Type' : 'application/json'
