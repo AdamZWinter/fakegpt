@@ -1,9 +1,12 @@
+#Must run the following on host machine for this to work
+#echo fs.inotify.max_user_watches=582222 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
 version: "3"
 
 services:
    winternode:
      container_name: "winter" 
-     image: "node"
+     image: "nodemon:0.01"
      restart: unless-stopped
     #  depends_on:
     #    - mariadb
@@ -16,11 +19,11 @@ services:
 #       - ../secrets:/var/www/secrets:z
 #       - ./scripts:/var/www/scripts:z
       #  - ./logs:/var/www/logs:z
-     command: node /app/server.js
+     command: nodemon --ignore node_modules/ server.js
      
    stewartnode:
      container_name: "stewart"
-     image: "node"
+     image: "nodemon:0.01"
      restart: unless-stopped
     #  depends_on:
     #    - mariadb
@@ -33,11 +36,11 @@ services:
 #       - ../secrets:/var/www/secrets:z
 #       - ./scripts:/var/www/scripts:z
       #  - ./logs:/var/www/logs:z
-     command: node /app/server.js
+     command: nodemon --ignore node_modules/ server.js
 
    wisenode:
      container_name: "wise"
-     image: "node"
+     image: "nodemon:0.01"
      restart: unless-stopped
     #  depends_on:
     #    - mariadb
@@ -50,11 +53,11 @@ services:
 #       - ../secrets:/var/www/secrets:z
 #       - ./scripts:/var/www/scripts:z
       #  - ./logs:/var/www/logs:z
-     command: node /app/server.js
+     command: nodemon --ignore node_modules/ server.js
 
    jacknode:
      container_name: "jeconiah"
-     image: "node"
+     image: "nodemon:0.01"
      restart: unless-stopped
     #  depends_on:
     #    - mariadb
@@ -67,7 +70,9 @@ services:
 #       - ../secrets:/var/www/secrets:z
 #       - ./scripts:/var/www/scripts:z
       #  - ./logs:/var/www/logs:z
-     command: node /app/server.js
+     command: nodemon --ignore node_modules/ server.js
+
+
 
 # docker run -it --rm --name winter -p 8080:8080 -v /home/winter/agile/app:/app:Z node /bin/bash
 # docker run -it --rm --name stewart -p 8081:8080 -v /home/stewart/agile/app:/app:Z node /bin/bash
