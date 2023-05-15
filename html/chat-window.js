@@ -29,6 +29,7 @@ form.addEventListener('submit', (e) => {
     })
     .then(res => res.json())
     .then(data => {
+        console.log(data);
         let newAssistantMessage = {"role": "assistant","content":`${data.completion.content}`};
         messages.push(newAssistantMessage);
         const messageElement = document.createElement('div');
