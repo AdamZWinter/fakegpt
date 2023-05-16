@@ -41,7 +41,7 @@ app.post("/completions", async (req, res) => {
         const response = await fetch('https://api.openai.com/v1/chat/completions', options);
         const data = await response.json();
         res.send(data);
-        res.send(JSON.stringify({backendSays: "front end sent the following", respnose: req.body.message}));
+        //res.send(JSON.stringify({backendSays: "front end sent the following", respnose: req.body.message}));
     } catch (error) {
         console.error(error);
         //console.log(options);
