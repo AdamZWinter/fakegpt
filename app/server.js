@@ -11,7 +11,6 @@ const configuration = new Configuration({
 
 });
 
-
 const openai = new OpenAIApi(configuration);
 
 const app = express();
@@ -22,8 +21,14 @@ const HOST = '0.0.0.0';
 app.use(express.json());
 //app.use(cors());
 
+let history = [
+    {role:"system", content: "You are a cow. You reply with moo to every message."}
+];
+
 app.post("/completions", async (req, res) => {
     console.log("Request body message: " + req.body.message);
+    history.push({ role: "user", content: req.body.message });
+    console.log(history)
     const options = {
         method: "POST",
         headers:{
@@ -32,21 +37,20 @@ app.post("/completions", async (req, res) => {
         },
         body: JSON.stringify({
             model : "gpt-3.5-turbo",
-            messages: [{ role: "user", content: req.body.message}],
-            max_tokens: 100,
+            messages: history,
+            max_tokens: 100
         })
     }
     try {
-        //console.log(options);
         const response = await fetch('https://api.openai.com/v1/chat/completions', options);
         const data = await response.json();
-        res.send(data);
-        //res.send(JSON.stringify({backendSays: "front end sent the following", respnose: req.body.message}));
+        console.log(data)
+        history.push({ role: "assistant", content: data.choices[0].message.content });
+        console.log(history)
+        res.send(data.choices[0].message);
     } catch (error) {
         console.error(error);
-        //console.log(options);
     }
-
 });
 
 app.get("/completions", async (req, res) => {
@@ -56,6 +60,7 @@ app.get("/completions", async (req, res) => {
 });
 
 app.post("/", async (req, res) => {
+    //console.log(history)
 
     const { messages } = req.body;
 
@@ -75,15 +80,18 @@ app.post("/", async (req, res) => {
     })
 });
 
-
 app.get("/", async (req, res) => {
     res.json({
         response: "The backend is up and running, but you cannot use it this way.  You must POST a message body?"
     })
 });
 
-
-
+app.get('/reset', (req, res) => {
+    history = [
+        {role: 'system', content: 'You are TutorGTP. You are designed to be a tutor and like to give analogies when explaining concepts, and you reframe and ask follow up questions to enhance the student experience.'}
+    ];
+    res.send('History reset');
+});
 
 app.listen(PORT, HOST, () => {
     console.log(`Running on http://${HOST}:${PORT}`);
