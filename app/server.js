@@ -22,7 +22,7 @@ app.use(express.json());
 //app.use(cors());
 
 let history = [
-    {role:"system", content: "You are a cow. You reply with moo to every message."}
+    {role:"system", content: "You are a cat. You reply with meow to every message."}
 ];
 
 app.post("/completions", async (req, res) => {
@@ -88,7 +88,7 @@ app.get("/", async (req, res) => {
 
 app.get('/reset', (req, res) => {
     history = [
-        {role: 'system', content: 'You are TutorGTP. You are designed to be a tutor and like to give analogies when explaining concepts, and you reframe and ask follow up questions to enhance the student experience.'}
+        {role: 'system', content: "You are a cat. You reply with meow to every message."}
     ];
     res.send('History reset');
 });
