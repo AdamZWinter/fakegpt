@@ -5,6 +5,9 @@ import express from 'express';
 //import cors from 'cors';
 import { api_key,org_key } from "./config.js";
 
+import { MongoClient } from "mongodb";
+const uri = "mongodb://127.0.0.1:27017/";
+
 const configuration = new Configuration({
     organization: org_key,
     apiKey: api_key,
@@ -39,13 +42,17 @@ let systemRole = `{
     try and compensate for that."
 }`;
 
+const systemRoleKey = "system";
+const userRoleKey = "user";
+const initialContent = `Expect me to  either type The History of the American Cival War, Philosphy: Trancendentalism vs Romanticism, or Shakespeare 101: Why do we still talk about William Shakespeare?. 
+If I try to say anything other then those three topics, redirect me until i make a choice. 
+Then, walk me through a brief lesson about the topic i chose. Follow the rules outlined in the json object to a T. Remember to ask me questions and often. Give me a pop quiz at the end of the lesson, 3 questions.Keep me on topic. If
+i try to derail the conversation by saying something like, but not limited to, "I like turtles", or "Oh my i have a huge fanny", i want you to acknowledge what i said, but remind me that it is out side the scope of our lesson, and
+resuggest we discuss the lesson at hand, and do not continue until i agree.`;
+
 let history = [
-    {role:"system", content: systemRole},
-    {role:"user" , content: `Expect me to  either type The History of the American Cival War, Philosphy: Trancendentalism vs Romanticism, or Shakespeare 101: Why do we still talk about William Shakespeare?. 
-    If I try to say anything other then those three topics, redirect me until i make a choice. 
-    Then, walk me through a brief lesson about the topic i chose. Follow the rules outlined in the json object to a T. Remember to ask me questions and often. Give me a pop quiz at the end of the lesson, 3 questions.Keep me on topic. If
-    i try to derail the conversation by saying something like, but not limited to, "I like turtles", or "Oh my i have a huge fanny", i want you to acknowledge what i said, but remind me that it is out side the scope of our lesson, and
-    resuggest we discuss the lesson at hand, and do not continue until i agree.`}
+    {role: systemRoleKey, content: systemRole},
+    {role: userRoleKey, content: initialContent}
 ];
 
 app.post("/completions", async (req, res) => {
