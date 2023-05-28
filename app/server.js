@@ -44,7 +44,7 @@ let systemRole = `{
 
 const systemRoleKey = "system";
 const userRoleKey = "user";
-const initialContent = `Expect me to  either type The History of the American Cival War, Philosphy: Trancendentalism vs Romanticism, or Shakespeare 101: Why do we still talk about William Shakespeare?. 
+const initialContent = `Expect me to  either type arrays, The History of the American Cival War, Philosphy: Trancendentalism vs Romanticism, or Shakespeare 101: Why do we still talk about William Shakespeare?. 
 If I try to say anything other then those three topics, redirect me until i make a choice. 
 Then, walk me through a brief lesson about the topic i chose. Follow the rules outlined in the json object to a T. Remember to ask me questions and often. Give me a pop quiz at the end of the lesson, 3 questions.Keep me on topic. If
 i try to derail the conversation by saying something like, but not limited to, "I like turtles", or "Oh my i have a huge fanny", i want you to acknowledge what i said, but remind me that it is out side the scope of our lesson, and
@@ -57,7 +57,7 @@ let history = [
 
 app.post("/completions", async (req, res) => {
 
-    console.log("Request body message: " + req.body.message);
+    //console.log("Request body message: " + req.body.message);
 
     history.push({ role: "user", content: req.body.message });
 
@@ -77,9 +77,9 @@ app.post("/completions", async (req, res) => {
     try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', options);
         const data = await response.json();
-        console.log(data)
+        //console.log(data)
         history.push({ role: "assistant", content: data.choices[0].message.content });
-        console.log(history)
+        //console.log(history)
         res.send(data.choices[0].message);
     } catch (error) {
         console.error(error);
@@ -114,28 +114,28 @@ app.get("/completions", async (req, res) => {
 // });
 
 app.get("/", async (req, res) => {
-    const options = {
-        method: "POST",
-        headers:{
-            "Authorization": `Bearer ${api_key}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            model : "gpt-3.5-turbo",
-            messages: history,
-            max_tokens: 100
-        })
-    }
-    try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', options);
-        const data = await response.json();
-        console.log(data)
-        history.push({ role: "assistant", content: data.choices[0].message.content });
-        console.log(history)
-        res.send(data.choices[0].message);
-    } catch (error) {
-        console.error(error);
-    }
+    // const options = {
+    //     method: "POST",
+    //     headers:{
+    //         "Authorization": `Bearer ${api_key}`,
+    //         "Content-Type": "application/json"
+    //     },
+    //     body: JSON.stringify({
+    //         model : "gpt-3.5-turbo",
+    //         messages: history,
+    //         max_tokens: 100
+    //     })
+    // }
+    // try {
+    //     const response = await fetch('https://api.openai.com/v1/chat/completions', options);
+    //     const data = await response.json();
+    //     console.log(data)
+    //     history.push({ role: "assistant", content: data.choices[0].message.content });
+    //     console.log(history)
+    //     res.send(data.choices[0].message);
+    // } catch (error) {
+    //     console.error(error);
+    // }
     res.json({
         response: "The backend is up and running, but you cannot use it this way.  You must POST a message body?"
     })
@@ -143,7 +143,16 @@ app.get("/", async (req, res) => {
 
 app.post('/reset', (req, res) => {
     history = [
-        {role: 'system', content: systemRole}
+        {role: systemRoleKey, content: systemRole},
+        {role: userRoleKey, content: initialContent}
+    ];
+    res.send('History reset');
+});
+
+app.get('/reset', (req, res) => {
+    history = [
+        {role: systemRoleKey, content: systemRole},
+        {role: userRoleKey, content: initialContent}
     ];
     res.send('History reset');
 });
