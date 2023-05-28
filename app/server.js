@@ -67,19 +67,21 @@ app.post("/completions", async (req, res) => {
                 },
                 {
                   "role": "user",
-                  "content": "What is the capital of France?"
+                  "content": req.body.message
                 }
-              ]  
+              ],
+            "max_tokens": 100
         })
     }
     try {
         const response = await fetch('http://54.190.77.0/v1/chat/completions', options);
-        console.log("********************************response*****************************************")
-        console.log(response)
-        console.log("********************************end response*****************************************")
+        //console.log("********************************response*****************************************")
+        //console.log(response)
+        //console.log("********************************end response*****************************************")
         const data = await response.json();
         console.log("********************************data*****************************************")
         console.log(data)
+        console.log("Message: " + data.choices[0].message)
         console.log("********************************end data*****************************************")
         res.send(data.choices[0].message);
     } catch (error) {
