@@ -75,7 +75,7 @@ app.post("/completions", async (req, res) => {
         })
     }
     try {
-        console.log("Getting response from OpenAi API....");
+        console.log("Getting response from OpenAi API for:  " + req.body.message);
         const response = await fetch('https://api.openai.com/v1/chat/completions', options);
         //console.log(response);
         const data = await response.json();
