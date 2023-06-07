@@ -6,7 +6,9 @@ import express from 'express';
 import { api_key,org_key } from "./config.js";
 
 import { MongoClient } from "mongodb";
-const uri = "mongodb://127.0.0.1:27017/";
+const uri = "mongodb://mongodb:27017/";
+const database_name = "chat_history";
+const collection_name = "winter_01";
 
 const configuration = new Configuration({
     organization: org_key,
@@ -57,6 +59,8 @@ let history = [
 
 app.post("/completions", async (req, res) => {
 
+    const client = new MongoClient(uri);
+
     //console.log("Request body message: " + req.body.message);
 
     history.push({ role: "user", content: req.body.message });
@@ -71,9 +75,10 @@ app.post("/completions", async (req, res) => {
         body: JSON.stringify({
             model : "gpt-3.5-turbo",
             messages: history,
-            
+            "max_tokens": 300
         })
     }
+    let gpt_response = "";  //initialized outside of block scope for database
     try {
         console.log("Getting response from OpenAi API for:  " + req.body.message);
         const response = await fetch('https://api.openai.com/v1/chat/completions', options);
@@ -81,12 +86,26 @@ app.post("/completions", async (req, res) => {
         const data = await response.json();
         //console.log(data)
         history.push({ role: "assistant", content: data.choices[0].message.content });
+        gpt_response = data.choices[0].message.content;
         //console.log(history)
         console.log(data.choices[0].message.content);
         res.send(data.choices[0].message);
     } catch (error) {
         console.error(error);
     }
+
+    try {
+        console.log("Trying insert to database....");
+        const database = client.db(database_name);
+        const colletion = database.collection(collection_name);
+        const myobj = { prompt: req.body.message, response: gpt_response };
+        const result = await colletion.insertOne(myobj);
+        console.log(result);
+      } finally {
+        // Ensures that the client will close when you finish/error
+        await client.close();
+        console.log("Done.");
+      }
 });
 
 app.get("/completions", async (req, res) => {
@@ -140,7 +159,7 @@ app.get("/", async (req, res) => {
     //     console.error(error);
     // }
     res.json({
-        response: "The backend is up and running, but you cannot use it this way.  You must POST a message body?"
+        response: "The backend is up and running, but you cannot use it this way.  You must POST a message body."
     })
 });
 
