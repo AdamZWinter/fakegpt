@@ -75,7 +75,7 @@ app.post("/completions", async (req, res) => {
         body: JSON.stringify({
             model : "gpt-3.5-turbo",
             messages: history,
-            "max_tokens": 300
+            "max_tokens": 150
         })
     }
     let gpt_response = "";  //initialized outside of block scope for database
@@ -84,11 +84,11 @@ app.post("/completions", async (req, res) => {
         const response = await fetch('https://api.openai.com/v1/chat/completions', options);
         //console.log(response);
         const data = await response.json();
-        //console.log(data)
+        console.log(data)
         history.push({ role: "assistant", content: data.choices[0].message.content });
         gpt_response = data.choices[0].message.content;
         //console.log(history)
-        console.log(data.choices[0].message.content);
+        //console.log(data.choices[0].message.content);
         res.send(data.choices[0].message);
     } catch (error) {
         console.error(error);
