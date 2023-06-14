@@ -114,50 +114,7 @@ app.get("/completions", async (req, res) => {
     })
 });
 
-// app.post("/", async (req, res) => {
-//     //console.log(history)
-
-//     const { messages } = req.body;
-
-    
-//     console.log(messages);
-//     const  completion = await openai.createChatCompletion({
-//         model:"gpt-3.5-turbo",
-//         messages:[
-//             {role:"system", content: "You are TutorGPT. You like to give analogies when explaining concepts, and ask follow up questions to reframe and enhance my own thinking. "},
-//             ...messages
-//             //{role:"user", content: `${message}`},
-//         ]
-//     })
-
-//     res.json({
-//         completion: completion.data.choices[0].message
-//     })
-// });
-
 app.get("/", async (req, res) => {
-    // const options = {
-    //     method: "POST",
-    //     headers:{
-    //         "Authorization": `Bearer ${api_key}`,
-    //         "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify({
-    //         model : "gpt-3.5-turbo",
-    //         messages: history,
-    //         max_tokens: 100
-    //     })
-    // }
-    // try {
-    //     const response = await fetch('https://api.openai.com/v1/chat/completions', options);
-    //     const data = await response.json();
-    //     console.log(data)
-    //     history.push({ role: "assistant", content: data.choices[0].message.content });
-    //     console.log(history)
-    //     res.send(data.choices[0].message);
-    // } catch (error) {
-    //     console.error(error);
-    // }
     res.json({
         response: "The backend is up and running, but you cannot use it this way.  You must POST a message body."
     })
@@ -176,7 +133,12 @@ app.get('/reset', (req, res) => {
         {role: systemRoleKey, content: systemRole},
         {role: userRoleKey, content: initialContent}
     ];
-    res.send('History reset');
+    console.log("********** History Reset **************");
+    res.send('{"response":"History reset"}');
+});
+
+app.get('/history', (req, res) => {
+    res.send(JSON.stringify(history));
 });
 
 app.listen(PORT, HOST, () => {
